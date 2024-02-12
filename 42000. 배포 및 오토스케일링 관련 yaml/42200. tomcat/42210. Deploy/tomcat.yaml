@@ -1,0 +1,56 @@
+apiVersion: apps/v1      
+kind: Deployment    
+metadata:     
+  name: tomcat-deployment
+  labels:
+    app: myweb                # label 지정
+    rel: stable
+  namespace: project
+spec:
+  progressDeadlineSeconds: 60
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1 
+      maxUnavailable: 0
+  minReadySeconds: 5
+  revisionHistoryLimit: 10
+  replicas: 3
+  selector:
+    matchLabels:
+      app: myweb
+      rel: stable
+  template:
+    metadata:
+      labels:
+        app: myweb
+        rel: stable
+    spec:
+      containers:
+      - image: [Docker Hub Image]
+        imagePullPolicy: Always
+        name: myweb
+        resources:
+          limits:
+            cpu: "0.5"
+            memory: 1Gi
+        ports:
+        - containerPort: 8080
+        command: ["/bin/sh", "-ec", "while :; do echo 'Hello World'; sleep 5 ; done"]              
+        env:
+        - name: db_url
+          valueFrom:
+            secretKeyRef:
+              name: tomcat-secret
+              key: DB_URL
+        - name: db_user
+          valueFrom:
+            secretKeyRef:
+              name: tomcat-secret
+              key: DB_USER
+        - name: db_password
+          valueFrom:
+            secretKeyRef:
+              name: tomcat-secret
+              key: DB_PASSWORD
+

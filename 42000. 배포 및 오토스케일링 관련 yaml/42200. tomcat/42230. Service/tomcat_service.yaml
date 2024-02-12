@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: tomcat-service
+  labels:
+    app: myweb
+    rel: stable
+  namespace: project
+spec:
+  selector:
+    app: myweb   #Service selected pod with tag app: myweb
+    rel: stable
+  ports:
+  - port: 8080 #Port number of the Service
+    targetPort: 8080  #Port number of container exposed
+  clusterIP: 10.100.0.100

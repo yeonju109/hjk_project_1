@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-product-list
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: product-list
+      rel: stable
+  template:
+    metadata:
+      labels:
+        app: product-list
+        rel: stable
+    spec:
+      containers:
+      - name: nginx
+        image: jojeongseok/product-list:v1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-product-list
+spec:
+  clusterIP: 10.100.0.101
+  selector:
+    app: product-list
+    rel: stable
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80

@@ -1,0 +1,57 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+    nginx.ingress.kubernetes.io/session-cookie-name: "INGRESS_SESSION_ID"
+    nginx.ingress.kubernetes.io/session-cookie-path: "/"
+    nginx.ingress.kubernetes.io/session-cookie-domain: ".car-shop.com"
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: "car-shop.com"
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: nginx-mainui
+            port:
+              number: 80
+      - pathType: Prefix
+        path: "/login"
+        backend:
+          service:
+            name: tomcat-login
+            port:
+              number: 80
+      - pathType: Prefix
+        path: "/product-list"
+        backend:
+          service:
+            name: nginx-product-list
+            port:
+              number: 80
+      - pathType: Prefix
+        path: "/product-list/product-detail"
+        backend:
+          service:
+            name: tomcat-detail
+            port:
+              number: 80
+      - pathType: Prefix
+        path: "/board"
+        backend:
+          service:
+            name: tomcat-board
+            port:
+              number: 80
+      - pathType: Prefix
+        path: "/reserve"
+        backend:
+          service:
+            name: tomcat-reserve
+            port:
+              number: 80

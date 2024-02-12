@@ -1,0 +1,3 @@
+Docker Hub 이미지 저장 정보 위치
+1) nginx : yeonju019/nginx:2.6
+2) tomcat : yeonju019/tomcat:2.5

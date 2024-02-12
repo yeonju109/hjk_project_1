@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tomcat-detail
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: detail
+      rel: stable
+  template:
+    metadata:
+      labels:
+        app: detail
+        rel: stable
+    spec:
+      containers:
+      - name: tomcat
+        image: jojeongseok/detail:v1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tomcat-detail
+spec:
+  clusterIP: 10.100.100.101
+  selector:
+    app: detail
+    rel: stable
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080

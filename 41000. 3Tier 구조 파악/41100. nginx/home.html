@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <title>Home</title>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/home.css">
+    <script>
+      window.onload = function() {
+        var httpRequest = new XMLHttpRequest();
+        httpRequest.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            var response = JSON.parse(this.responseText);
+            if (response.loggedIn) {
+              document.getElementById('navbar').innerHTML = '<li><a href="/">HOME</a></li><li><a href="logout.jsp">LOGOUT</a></li>';
+            } else {
+              document.getElementById('navbar').innerHTML = '<li><a href="/">HOME</a></li><li><a href="login.jsp">LOGIN</a></li>';
+            }
+          }
+        };
+        httpRequest.open("GET", "checkLoginStatus.jsp", true);
+        httpRequest.send();
+      };
+    </script>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="intro_bg">
+        <div class="header">
+          <div class="searchArea">
+            <form>
+              <input type="search" placeholder="search">
+              <span>검색</span>
+            </form>
+          </div>
+          <ul class="nav" id="navbar">
+            <!-- 로그인 상태에 따라 링크가 여기에 삽입됩니다. -->
+          </ul>
+        </div>
+      </div>
+      </div>
+      <ul class="amount">
+        <li>
+          <div>
+            <div class="contents1">MODEL</div>
+            <button type="button" class="more" onClick="location.href='product-list.jsp'">MORE</button>
+          </div>
+        </li>
+        <li>
+          <div>
+            <div class="contents1">RESERVE</div>
+            <button type="button" class="more" onClick="location.href='orderlist.jsp'">MORE</button>
+          </div>
+        </li>
+        <li>
+          <div>
+            <div class="contents1">CONTACT</div>
+            <button type="button" class="more" onClick="location.href='board.jsp'">MORE</button>
+          </div>
+        </li>
+      </ul>
+      <div class="main_text0">
+        <h1>NEW</h1>    
+        <ul class="icons">
+          <li>
+            <div style="position:absolute; left:843px; top:509px;">
+             </div>
+            <div class="icon_img bg-cover">
+            </div>
+            <div class="contents1_bold">Sedan</div>
+          </li>
+          <li>
+            <div class="icon_img bg-cover">
+            </div>
+            <div class="contents1_bold">SUV</div>
+           </li>
+          <li>
+            <div class="icon_img bg-cover">
+            </div>
+            <div class="contents1_bold">Cabriolet & Roadster</div>
+          </li>
+        </ul>
+      </div>
+      <div class="main_text2">
+        <ul>
+          <li>
+            <div><h1>CONTACT</h1></div>
+            <div>우리에게 파트너십을 신청하거나, 고객이 되어주세요</div>
+            <div class="more2">더 알아보기</div>
+          </li>
+          <li></li>
+        </ul>
+      </div>
+      <div class="footer">
+        <div>LOGO</div>
+        <div>
+          CEO. 정석쌤과 아이들 <br>
+          Addr. 당신이 있는 곳 어디든<br>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

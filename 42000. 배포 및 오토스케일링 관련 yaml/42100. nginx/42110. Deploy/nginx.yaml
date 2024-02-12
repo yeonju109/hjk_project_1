@@ -1,0 +1,49 @@
+apiVersion: apps/v1           # 쿠버네티스 api 버전
+kind: Deployment              # 생성할 오브젝트 종류
+metadata:                
+  name: nginx-deployment      # deployment의 이름
+  labels:
+    app: nginx                # label 지정
+    rel: stable
+  namespace: project
+spec:                         # deployment의 스펙을 정의
+  progressDeadlineSeconds: 60
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1 
+      maxUnavailable: 0
+  minReadySeconds: 5
+  revisionHistoryLimit: 10
+  replicas: 3                 # 3개의 pod 설정
+  selector:                   # deployment가 관리할 pod를 찾는 방법을 정의
+    matchLabels:     
+      app: nginx
+      rel: stable
+  template:
+    metadata:
+      labels:                 # pod의 label
+        app: nginx
+        rel: stable
+    spec:
+      containers:             # 컨테이너 설정
+      - name: nginx          
+        image: [Docker Hub Image]
+        volumeMounts:
+        - name: web-content
+          mountPath: /usr/share/nginx/html
+        ports:
+        - containerPort: 80
+        command: ["/bin/bash", "-ec", "while :; do echo '.'; sleep 5 ; done"]
+        livenessProbe:  
+          httpGet:
+            path: /        
+            port: 80    
+          initialDelaySeconds: 3  
+          periodSeconds: 5       
+          timeoutSeconds: 1 
+      volumes:
+      - name: web-content
+        hostPath:
+          type: Directory
+          path: /car
